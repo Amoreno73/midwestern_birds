@@ -1,4 +1,7 @@
 import re
+import os
+import requests
+import pandas as pd
 
 """
 Central place to define bird groupings for eBird common names (comName).
@@ -169,3 +172,82 @@ def get_group_for_species(species_common_name: str, default: str = "NOT_IN_GROUP
     If no match, returns 'NOT_IN_GROUPS' by default.
     """
     return SPECIES_TO_GROUP.get(_norm(species_common_name), default)
+
+
+# Lookup dictionary built using a function in `status_and_trends_data.ipynb`
+# species code -> corresponding species common name
+
+spcscode_to_comname = {'snogoo': 'snow goose',
+ 'rosgoo': "ross's goose",
+ 'gwfgoo': 'greater white-fronted goose',
+ 'brant': 'brant',
+ 'cangoo': 'canada goose',
+ 'rebgoo1': 'red-breasted goose',
+ 'mutswa': 'mute swan',
+ 'blkswa': 'black swan',
+ 'truswa': 'trumpeter swan',
+ 'tunswa': 'tundra swan',
+ 'wooduc': 'wood duck',
+ 'buwtea': 'blue-winged teal',
+ 'norsho': 'northern shoveler',
+ 'gadwal': 'gadwall',
+ 'amewig': 'american wigeon',
+ 'mallar3': 'mallard',
+ 'ambduc': 'american black duck',
+ 'y00600': 'mallard/american black duck',
+ 'norpin': 'northern pintail',
+ 'gnwtea': 'green-winged teal',
+ 'canvas': 'canvasback',
+ 'redhea': 'redhead',
+ 'rinduc': 'ring-necked duck',
+ 'gresca': 'greater scaup',
+ 'lessca': 'lesser scaup',
+ 'whwsco2': 'white-winged scoter',
+ 'lotduc': 'long-tailed duck',
+ 'buffle': 'bufflehead',
+ 'comgol': 'common goldeneye',
+ 'rudduc': 'ruddy duck',
+ 'rocpig': 'rock pigeon',
+ 'y00475': 'american coot',
+ 'sancra': 'sandhill crane',
+ 'whocra': 'whooping crane',
+ 'ribgul': 'ring-billed gull',
+ 'amhgul1': 'american herring gull',
+ 'caster1': 'caspian tern',
+ 'comter': 'common tern',
+ 'pibgre': 'pied-billed grebe',
+ 'eargre': 'eared grebe',
+ 'doccor': 'double-crested cormorant',
+ 'grnher': 'green heron',
+ 'greegr': 'great egret',
+ 'grbher3': 'great blue heron',
+ 'amwpel': 'american white pelican',
+ 'blkvul': 'black vulture',
+ 'turvul': 'turkey vulture',
+ 'osprey': 'osprey',
+ 'goleag': 'golden eagle',
+ 'shshaw': 'sharp-shinned hawk',
+ 'coohaw': "cooper's hawk",
+ 'norhar2': 'northern harrier',
+ 'baleag': 'bald eagle',
+ 'brwhaw': 'broad-winged hawk',
+ 'reshaw': 'red-shouldered hawk',
+ 'rethaw': 'red-tailed hawk',
+ 'rolhaw': 'rough-legged hawk',
+ 'easowl1': 'eastern screech-owl',
+ 'snoowl1': 'snowy owl',
+ 'grhowl': 'great horned owl',
+ 'brdowl': 'barred owl',
+ 'amekes': 'american kestrel',
+ 'perfal': 'peregrine falcon',
+ 'blujay': 'blue jay',
+ 'amecro': 'american crow',
+ 'comrav': 'common raven',
+ 'horlar': 'horned lark',
+ 'barswa': 'barn swallow',
+ 'eursta': 'european starling',
+ 'herthr': 'hermit thrush',
+ 'amerob': 'american robin',
+ 'houspa': 'house sparrow',
+ 'daejun': 'dark-eyed junco',
+ 'rewbla': 'red-winged blackbird'}
